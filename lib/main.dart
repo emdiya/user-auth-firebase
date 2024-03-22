@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:user_auth_firebase/firebase_options.dart';
 import 'package:user_auth_firebase/home_screen.dart';
-import 'package:user_auth_firebase/widgets/screen/splashscreen.dart';
+import 'package:user_auth_firebase/auth/screen/splashscreen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

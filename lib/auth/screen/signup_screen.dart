@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:user_auth_firebase/controller/user_controller.dart';
+import 'package:user_auth_firebase/auth/controller/auth_controller.dart';
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
 
@@ -11,7 +11,7 @@ class SignUpPage extends StatefulWidget {
 class _SignUpPageState extends State<SignUpPage> {
   TextEditingController emailcontroller = TextEditingController();
   TextEditingController passwordcontroller = TextEditingController();
-  final authCon = Get.put(UserController());
+  final authCon = Get.put(AuthController());
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;

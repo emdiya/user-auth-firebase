@@ -2,8 +2,8 @@ import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:user_auth_firebase/controller/user_controller.dart';
-import 'package:user_auth_firebase/widgets/screen/login_screen.dart';
+import 'package:user_auth_firebase/auth/controller/auth_controller.dart';
+import 'package:user_auth_firebase/auth/screen/login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -13,7 +13,7 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  final auth = Get.put(UserController());
+  final auth = Get.put(AuthController());
   @override
   void initState() {
     super.initState();

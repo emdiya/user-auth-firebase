@@ -1,35 +1,34 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_side_menu/flutter_side_menu.dart';
 import 'package:get/get.dart';
-import 'package:user_auth_firebase/controller/user_controller.dart';
+import 'package:user_auth_firebase/auth/controller/auth_controller.dart';
+import 'package:user_auth_firebase/module/setting/setting_screen.dart';
+
+import 'module/profile/screen/profile_screen.dart';
+import 'module/widgets/custom_circle_avatar_image.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final auth = Get.put(UserController());
-
-
-  @override
-  void initState() {
-    super.initState();
-    auth.getUser();
-    Future.delayed(const Duration(seconds: 3), () {
-      auth.checkUser();
-    });
-  }
+  final auth = Get.put(AuthController());
 
   final _controller = SideMenuController();
   int _currentIndex = 0;
 
   @override
+  void initState() {
+    super.initState();
+    auth.getUser();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    debugPrint("---------------User ${auth.user}");
     return Scaffold(
       body: Row(
         children: [
@@ -67,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   const SideMenuItemDataDivider(divider: Divider()),
                   const SideMenuItemDataTitle(title: "Account"),
                   SideMenuItemDataTile(
-                    isSelected: _currentIndex == 1,
+                    isSelected: _currentIndex == 2,
                     onTap: () => setState(() => _currentIndex = 2),
                     title: 'Profile',
                     selectedTitleStyle: const TextStyle(
@@ -77,7 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     titleStyle: const TextStyle(color: Colors.deepPurpleAccent),
                   ),
                   SideMenuItemDataTile(
-                    isSelected: _currentIndex == 1,
+                    isSelected: _currentIndex == 3,
                     onTap: () => setState(() => _currentIndex = 3),
                     title: 'Notification',
                     selectedTitleStyle: const TextStyle(
@@ -87,7 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     titleStyle: const TextStyle(color: Colors.deepPurpleAccent),
                   ),
                   SideMenuItemDataTile(
-                    isSelected: _currentIndex == 1,
+                    isSelected: _currentIndex == 4,
                     onTap: () => setState(() => _currentIndex = 4),
                     title: 'Setting',
                     selectedTitleStyle: const TextStyle(
@@ -108,28 +107,28 @@ class _HomeScreenState extends State<HomeScreen> {
                         Radius.circular(30),
                       ),
                     ),
-                    child:  Row(
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        const CircleAvatarImage(
-                          imageUrl:
-                              "https://emdiya.github.io/potfolio/assets/my_photo-b5cd2ac9.jpeg",
+                        CircleAvatarImage(
+                          imageUrl: auth.user?.photoURL ??
+                              "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg",
                         ),
                         const SizedBox(width: 10),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
-                              "Em Diya",
-                              style: TextStyle(
+                            Text(
+                              auth.user?.displayName ?? "Unknown",
+                              style: const TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                             Text(
-                              auth.user!.email ?? "",
+                              auth.user?.email ?? "",
                               style: const TextStyle(
                                 fontSize: 10,
                                 fontWeight: FontWeight.w400,
@@ -151,25 +150,7 @@ class _HomeScreenState extends State<HomeScreen> {
             },
           ),
           Expanded(
-            child: Container(
-              color: Colors.white,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'body',
-                    style: Theme.of(context).textTheme.displaySmall,
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      _controller.toggle();
-                    },
-                    child: const Text('change side menu state'),
-                  )
-                ],
-              ),
-            ),
+            child: _buildBodyContent(),
           ),
           SideMenu(
             position: SideMenuPosition.right,
@@ -181,18 +162,45 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-}
 
-class CircleAvatarImage extends StatelessWidget {
-  final String imageUrl;
-
-  const CircleAvatarImage({super.key, required this.imageUrl});
-
-  @override
-  Widget build(BuildContext context) {
-    return CircleAvatar(
-      radius: 20,
-      backgroundImage: NetworkImage(imageUrl),
-    );
+  Widget _buildBodyContent() {
+    switch (_currentIndex) {
+      case 0:
+        return Container(
+          color: Colors.white,
+          child: const Center(
+            child: Text(
+              'Dashboard',
+              style: TextStyle(fontSize: 24),
+            ),
+          ),
+        );
+      case 1:
+        return Container(
+          color: Colors.white,
+          child: const Center(
+            child: Text(
+              'Product',
+              style: TextStyle(fontSize: 24),
+            ),
+          ),
+        );
+      case 2:
+        return const ProfileScreen();
+      case 3:
+        return Container(
+          color: Colors.white,
+          child: const Center(
+            child: Text(
+              'Notification',
+              style: TextStyle(fontSize: 24),
+            ),
+          ),
+        );
+      case 4:
+        return const SettingScreen();
+      default:
+        return Container();
+    }
   }
 }
