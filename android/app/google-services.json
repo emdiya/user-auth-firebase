@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "788523506692",
+    "project_id": "auth-user-firebase",
+    "storage_bucket": "auth-user-firebase.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:788523506692:android:b4ddbf8f700de76f042951",
+        "android_client_info": {
+          "package_name": "com.example.user_auth_firebase"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB6-CT5KuECmBkh5NhEQ41n4lLLRuzIFAE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
